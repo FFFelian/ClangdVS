@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="256" height="256" viewBox="0 0 256 256" role="img" aria-labelledby="title description">
+  <title id="title">ClangdVS</title>
+  <desc id="description">A cyan angular C and a violet code chevron on a transparent background.</desc>
+  <!-- Transparent background; both marks use only filled paths. -->
+  <!-- Wide, open C: the left angle echoes a code bracket. -->
+  <path fill="#44D5F2" d="M140 58H104L40 128L104 198H140V166H118L83 128L118 90H140Z"/>
+  <!-- A separate closing bracket keeps the code motif readable at 32 px. -->
+  <path fill="#B99AFF" d="M169 86L211 128L169 170L147 148L167 128L147 108Z"/>
+</svg>

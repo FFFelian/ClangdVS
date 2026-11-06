@@ -1,0 +1,22 @@
+Third-Party Notices
+===================
+
+ClangdVS is a port of vscode-clangd and therefore includes material derived
+from it. The MIT License requires that the original copyright notice be
+preserved; it is reproduced below.
+
+--------------------------------------------------------------------------------
+vscode-clangd
+--------------------------------------------------------------------------------
+
+Project : vscode-clangd
+Source  : https://github.com/clangd/vscode-clangd
+License : MIT
+Copyright (c) 2019 The LLVM Developers
+
+The full text of the MIT License under which vscode-clangd is distributed is
+identical in substance to the license in LICENSE.txt at the root of this
+repository, with the copyright holder shown above.
+
+Portions of this project - notably the feature set, the settings layout and
+the header/source switching behavior - are derived from vscode-clangd.

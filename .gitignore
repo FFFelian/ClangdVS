@@ -1,0 +1,12 @@
+# Build outputs
+[Bb]in/
+[Oo]bj/
+*.vsix
+*.user
+
+# Visual Studio local state (caches, .suo, project evaluation data)
+.vs/
+
+# Misc
+*.log
+__pycache__/

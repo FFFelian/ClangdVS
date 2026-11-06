@@ -1,0 +1,90 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net472</TargetFramework>
+    <RootNamespace>ClangdVS</RootNamespace>
+    <AssemblyName>ClangdVS</AssemblyName>
+    <Version>1.0.25</Version>
+    <LangVersion>latest</LangVersion>
+    <PathMap>$(MSBuildProjectDirectory)=/_/ClangdVS</PathMap>
+    <NeutralLanguage>en-US</NeutralLanguage>
+    <!-- VSTHRD010: conservative thread-affinity warnings; all call sites are
+         main-thread (verified via JoinableTaskFactory.SwitchToMainThreadAsync). -->
+    <NoWarn>$(NoWarn);VSTHRD010</NoWarn>
+
+    <!-- Pull in Microsoft.VsSdk.targets from VSSDK.BuildTools so the VSIX
+         container, pkgdef and VSCT compilation targets actually run. -->
+    <VSSDKBuildToolsAutoSetup>true</VSSDKBuildToolsAutoSetup>
+    <!-- Keep post-packaging compatibility analysis disabled until its severity
+         is explicitly selected for this target framework. -->
+    <CompatibilitySeverity></CompatibilitySeverity>
+  </PropertyGroup>
+
+  <PropertyGroup>
+    <!-- VSIX container -->
+    <GeneratePkgDefFile>true</GeneratePkgDefFile>
+    <IncludeAssemblyInVSIXContainer>true</IncludeAssemblyInVSIXContainer>
+    <CopyBuildOutputToOutputDirectory>true</CopyBuildOutputToOutputDirectory>
+    <CopyOutputSymbolsToOutputDirectory>false</CopyOutputSymbolsToOutputDirectory>
+    <CreateVsixContainer>true</CreateVsixContainer>
+    <DeployExtension>false</DeployExtension>
+    <!-- VS 2022/2026 min supported for the container -->
+    <MinimumVisualStudioVersion>17.0</MinimumVisualStudioVersion>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Reference Include="PresentationFramework" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <!-- Classic in-proc VS SDK surface (Shell, Interop, MPF, EnvDTE...) -->
+    <PackageReference Include="Microsoft.VisualStudio.Sdk" Version="17.14.40265" />
+    <!-- Official LSP client API (ILanguageClient). Pinned to the exact 18.9.17
+         line that VS 2026 (as of 18.9) ships in-proc, so the referenced
+         assembly version matches the built-in one - no binding redirect
+         needed. Distributed via the official vssdk feed (see nuget.config). -->
+    <PackageReference Include="Microsoft.VisualStudio.LanguageServer.Client" Version="18.9.17" />
+    <!-- JSON parsing (for parsing the definition response when resolving navigation targets). VS ships its own version of the same series, with binding redirects as a fallback. -->
+    <PackageReference Include="Newtonsoft.Json" Version="13.0.4" />
+    <!-- VSIX packaging targets; 18.x line actively maintained for VS 2026. -->
+    <PackageReference Include="Microsoft.VSSDK.BuildTools" Version="18.9.820">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
+  </ItemGroup>
+
+  <ItemGroup>
+    <!-- Assets included in the VSIX container. The license and the upstream
+         attribution live at the repository root as the single source of
+         truth and are linked in, so any distributed copy carries them. -->
+    <Content Include="..\..\LICENSE.txt" Link="LICENSE.txt" IncludeInVSIX="true" />
+    <Content Include="..\..\THIRD-PARTY-NOTICES.txt" Link="THIRD-PARTY-NOTICES.txt" IncludeInVSIX="true" />
+    <Content Include="icon.png" IncludeInVSIX="true" />
+    <Content Include="icon.svg" IncludeInVSIX="true" />
+  </ItemGroup>
+
+  <!-- Do not redistribute VS SDK assemblies. These arrive as transitive
+       copy-local references of Microsoft.VisualStudio.Sdk, are never
+       referenced by ClangdVS.dll, and are already provided by the Visual
+       Studio host (at equal or newer versions). Shipping them would
+       redistribute Microsoft binaries under the proprietary "Visual Studio
+       Add-ons and Extensions" license terms, which forbid republishing. -->
+  <ItemGroup>
+    <SuppressFromVsix Include="Microsoft.Bcl.HashCode.dll" />
+    <SuppressFromVsix Include="Microsoft.VisualStudio.Extensibility.Editor.Contracts.dll" />
+    <SuppressFromVsix Include="Microsoft.VisualStudio.Linux.ConnectionManager.Store.dll" />
+    <SuppressFromVsix Include="PolyType.dll" />
+    <SuppressFromVsix Include="System.Text.Encodings.Web.dll" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <VSCTCompile Include="ClangdVS.vsct" ResourceName="Menus.ctmenu" />
+    <!-- Let VSCT resolve the project-local extern header (ClangdVSSymbols.h). -->
+    <VSCTIncludePath Include="$(MSBuildThisFileDirectory)" />
+    <EmbeddedResource Update="VSPackage.resx">
+      <MergeWithCTO>true</MergeWithCTO>
+      <ManifestResourceName>VSPackage</ManifestResourceName>
+    </EmbeddedResource>
+  </ItemGroup>
+
+</Project>

@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PackageManifest Version="2.0.0" xmlns="http://schemas.microsoft.com/developer/vsx-schema/2011" xmlns:d="http://schemas.microsoft.com/developer/vsx-schema-design/2011">
+  <Metadata>
+    <Identity Id="ClangdVS.felian.clangd-vs-2026" Version="1.0.25" Language="en-US" Publisher="felian" />
+    <DisplayName>clangd language server</DisplayName>
+    <Description>Runs the clangd language server (https://clangd.llvm.org) for C/C++ editing in Visual Studio 2022 and 2026: code completion, diagnostics, navigation, formatting, refactoring - and can take over from the default IntelliSense engine.</Description>
+    <MoreInfo>https://clangd.llvm.org/</MoreInfo>
+    <License>LICENSE.txt</License>
+    <Icon>icon.png</Icon>
+    <Tags>c++, cpp, clang, clangd, lsp, language server</Tags>
+  </Metadata>
+  <Installation>
+    <!-- Microsoft.VisualStudio.Community covers Pro/Enterprise automatically.
+         [17.0,19.0) covers VS 2022 (17.x) and VS 2026 (18.x). -->
+    <InstallationTarget Id="Microsoft.VisualStudio.Community" Version="[17.0,19.0)">
+      <ProductArchitecture>amd64</ProductArchitecture>
+    </InstallationTarget>
+  </Installation>
+  <Dependencies />
+  <Prerequisites>
+    <Prerequisite Id="Microsoft.VisualStudio.Component.CoreEditor" Version="[17.0,19.0)" DisplayName="Visual Studio core editor" />
+  </Prerequisites>
+  <Assets>
+    <Asset Type="Microsoft.VisualStudio.VsPackage" d:Source="Project" Path="|ClangdVS;PkgdefProjectOutputGroup|" />
+    <Asset Type="Microsoft.VisualStudio.MefComponent" d:Source="Project" Path="|ClangdVS|" />
+  </Assets>
+</PackageManifest>

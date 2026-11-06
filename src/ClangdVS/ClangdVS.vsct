@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="utf-8"?>
+<CommandTable xmlns="http://schemas.microsoft.com/VisualStudio/2005-10-18/CommandTable" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+
+  <Extern href="stdidcmd.h" />
+  <Extern href="vsshlids.h" />
+  <Extern href="ClangdVSSymbols.h" />
+
+  <Commands package="guidClangdVSPkg">
+
+    <Groups>
+      <Group guid="guidClangdVSCmdSet" id="ClangdMenuGroup" priority="0x0600">
+        <Parent guid="guidSHLMainMenu" id="IDM_VS_MENU_TOOLS" />
+      </Group>
+      <Group guid="guidClangdVSCmdSet" id="ClangdEditorContextGroup" priority="0x0400">
+        <Parent guid="guidSHLMainMenu" id="IDM_VS_CTXT_CODEWIN" />
+      </Group>
+      <!-- VSCT rule: a Button's Parent must be a Group; a Menu must first have a Group attached.
+           Previously the 3 buttons hung directly under ClangdMenu (Menu) and were treated as orphans -> Menu was empty ->
+           VS automatically hides empty submenus, which is why the clangd menu was not visible under Tools. -->
+      <Group guid="guidClangdVSCmdSet" id="ClangdMenuItemGroup" priority="0x0100">
+        <Parent guid="guidClangdVSCmdSet" id="ClangdMenu" />
+      </Group>
+    </Groups>
+
+    <Menus>
+      <Menu guid="guidClangdVSCmdSet" id="ClangdMenu" priority="0x0700" type="Menu">
+        <Parent guid="guidClangdVSCmdSet" id="ClangdMenuGroup" />
+        <Strings>
+          <ButtonText>clangd 语言服务(&amp;D)</ButtonText>
+          <CommandName>clangd语言服务</CommandName>
+        </Strings>
+      </Menu>
+    </Menus>
+
+    <Buttons>
+      <!-- Switch between header and source file (shortcut Alt+O, same as vscode-clangd) -->
+      <Button guid="guidClangdVSCmdSet" id="cmdidSwitchHeaderSource" priority="0x0100" type="Button">
+        <Parent guid="guidClangdVSCmdSet" id="ClangdMenuItemGroup" />
+        <Strings>
+          <ButtonText>切换头文件/源文件(&amp;H)</ButtonText>
+          <CommandName>切换头文件/源文件</CommandName>
+        </Strings>
+      </Button>
+
+      <!-- Restart the language server -->
+      <Button guid="guidClangdVSCmdSet" id="cmdidRestartClangd" priority="0x0200" type="Button">
+        <Parent guid="guidClangdVSCmdSet" id="ClangdMenuItemGroup" />
+        <Strings>
+          <ButtonText>重启语言服务器(&amp;R)</ButtonText>
+          <CommandName>重启语言服务器</CommandName>
+        </Strings>
+      </Button>
+
+      <!-- Takeover/restore: disable or restore native IntelliSense -->
+      <Button guid="guidClangdVSCmdSet" id="cmdidToggleTakeover" priority="0x0300" type="Button">
+        <Parent guid="guidClangdVSCmdSet" id="ClangdMenuItemGroup" />
+        <Strings>
+          <ButtonText>接管编辑器（禁用原生 IntelliSense）(&amp;T)</ButtonText>
+          <CommandName>接管编辑器（禁用原生IntelliSense）</CommandName>
+        </Strings>
+      </Button>
+
+      <Button guid="guidClangdVSCmdSet" id="cmdidViewClangdAst" priority="0x0400" type="Button">
+        <Parent guid="guidClangdVSCmdSet" id="ClangdMenuItemGroup" />
+        <Strings>
+          <ButtonText>查看 clangd AST</ButtonText>
+          <CommandName>查看 clangd AST</CommandName>
+        </Strings>
+      </Button>
+
+      <Button guid="guidClangdVSCmdSet" id="cmdidViewClangdSymbolInfo" priority="0x0500" type="Button">
+        <Parent guid="guidClangdVSCmdSet" id="ClangdMenuItemGroup" />
+        <Strings>
+          <ButtonText>查看 Symbol Info</ButtonText>
+          <CommandName>查看 Symbol Info</CommandName>
+        </Strings>
+      </Button>
+
+      <Button guid="guidClangdVSCmdSet" id="cmdidViewClangdTypeHierarchy" priority="0x0600" type="Button">
+        <Parent guid="guidClangdVSCmdSet" id="ClangdMenuItemGroup" />
+        <Strings>
+          <ButtonText>查看 Type Hierarchy</ButtonText>
+          <CommandName>查看 Type Hierarchy</CommandName>
+        </Strings>
+      </Button>
+
+      <!-- Editor context menu: switch header/source file -->
+      <Button guid="guidClangdVSCmdSet" id="cmdidSwitchHeaderSourceContext" priority="0x0500" type="Button">
+        <Parent guid="guidClangdVSCmdSet" id="ClangdEditorContextGroup" />
+        <Strings>
+          <ButtonText>切换头文件/源文件(&amp;S)</ButtonText>
+          <CommandName>切换头文件/源文件.编辑器</CommandName>
+        </Strings>
+      </Button>
+    </Buttons>
+
+    <Combos>
+    </Combos>
+  </Commands>
+
+  <KeyBindings>
+    <!-- Alt+O : switch header/source file -->
+    <KeyBinding guid="guidClangdVSCmdSet" id="cmdidSwitchHeaderSource" editor="guidVSStd97" key1="VK_O" mod1="ALT" />
+  </KeyBindings>
+
+</CommandTable>
